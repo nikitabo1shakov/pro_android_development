@@ -3,7 +3,7 @@ package com.nikitabolshakov.proandroiddevelopment.view.main
 import com.nikitabolshakov.proandroiddevelopment.model.data.AppState
 import com.nikitabolshakov.proandroiddevelopment.model.data.DataModel
 import com.nikitabolshakov.proandroiddevelopment.model.repository.Repository
-import com.nikitabolshakov.proandroiddevelopment.presenter.Interactor
+import com.nikitabolshakov.proandroiddevelopment.interactor.Interactor
 import io.reactivex.Observable
 
 class MainInteractor(

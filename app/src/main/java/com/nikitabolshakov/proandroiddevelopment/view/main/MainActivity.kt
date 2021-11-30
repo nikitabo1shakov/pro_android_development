@@ -4,20 +4,25 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikitabolshakov.proandroiddevelopment.view.main.adapter.MainAdapter
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityMainBinding
 import com.nikitabolshakov.proandroiddevelopment.model.data.AppState
 import com.nikitabolshakov.proandroiddevelopment.model.data.DataModel
-import com.nikitabolshakov.proandroiddevelopment.presenter.Presenter
 import com.nikitabolshakov.proandroiddevelopment.view.base.BaseActivity
-import com.nikitabolshakov.proandroiddevelopment.view.base.View
+import com.nikitabolshakov.proandroiddevelopment.view.main.adapter.MainAdapter
 
 class MainActivity : BaseActivity<AppState>() {
+    // Создаём модель
+    override val model: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
 
+    // Паттерн Observer в действии. Именно с его помощью мы подписываемся на изменения в LiveData.
+    private val observer = Observer<AppState> { renderData(it) }
     private lateinit var binding: ActivityMainBinding
-
     private var adapter: MainAdapter? = null
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
@@ -25,10 +30,6 @@ class MainActivity : BaseActivity<AppState>() {
                 Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
             }
         }
-
-    override fun createPresenter(): Presenter<AppState, View> {
-        return MainPresenterImpl()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,8 @@ class MainActivity : BaseActivity<AppState>() {
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    presenter.getData(searchWord, true)
+                    // Обратите внимание на этот ключевой момент. У ViewModel мы получаем LiveData через метод getData и подписываемся на изменения, передавая туда observer.
+                    model.getData(searchWord, true).observe(this@MainActivity, observer)
                 }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
@@ -85,7 +87,8 @@ class MainActivity : BaseActivity<AppState>() {
         showViewError()
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData("hi", true)
+            // В случае ошибки мы повторно запрашиваем данные и подписываемся на изменения.
+            model.getData("hi", true).observe(this, observer)
         }
     }
 

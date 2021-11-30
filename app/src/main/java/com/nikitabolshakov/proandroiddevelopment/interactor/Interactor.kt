@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presenter
+package com.nikitabolshakov.proandroiddevelopment.interactor
 
 import io.reactivex.Observable
 
