@@ -14,9 +14,7 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     private var _binding: SearchDialogFragmentBinding? = null
     private val binding get() = _binding!!
     private var onSearchClickListener: OnSearchClickListener? = null
-
     private val textWatcher = object : TextWatcher {
-
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             if (binding.searchEditText.text != null && !binding.searchEditText.text.toString()
                     .isEmpty()
@@ -77,8 +75,6 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(): SearchDialogFragment {
-            return SearchDialogFragment()
-        }
+        fun newInstance(): SearchDialogFragment = SearchDialogFragment()
     }
 }

@@ -25,13 +25,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var binding: ActivityMainBinding
-
     override lateinit var model: MainActivityViewModel
-
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
-
     private val fabClickListener: View.OnClickListener =
         View.OnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
