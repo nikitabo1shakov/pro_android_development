@@ -8,13 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.model.data.DataModel
+import com.nikitabolshakov.proandroiddevelopment.utils.ui.convertMeaningsToString
+import kotlinx.android.synthetic.main.activity_main_recyclerview_item.view.*
 
-class MainAdapter(
-    private var onListItemClickListener: OnListItemClickListener,
-    private var data: List<DataModel>
-) : RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
+class MainAdapter(private var onListItemClickListener: OnListItemClickListener) :
+    RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
-    @SuppressLint("NotifyDataSetChanged")
+    private var data: List<DataModel> = arrayListOf()
+
     fun setData(data: List<DataModel>) {
         this.data = data
         notifyDataSetChanged()
@@ -39,9 +40,8 @@ class MainAdapter(
 
         fun bind(data: DataModel) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                itemView.findViewById<TextView>(R.id.header_textview_recycler_item).text = data.text
-                itemView.findViewById<TextView>(R.id.description_textview_recycler_item).text =
-                    data.meanings?.get(0)?.translation?.translation
+                itemView.header_textview_recycler_item.text = data.text
+                itemView.description_textview_recycler_item.text = convertMeaningsToString(data.meanings!!)
                 itemView.setOnClickListener { openInNewWindow(data) }
             }
         }
