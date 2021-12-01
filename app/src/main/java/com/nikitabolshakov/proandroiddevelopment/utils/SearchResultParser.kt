@@ -1,8 +1,8 @@
-package com.nikitabolshakov.proandroiddevelopment.utils.ui
+package com.nikitabolshakov.proandroiddevelopment.utils
 
-import com.nikitabolshakov.proandroiddevelopment.model.data.AppState
-import com.nikitabolshakov.proandroiddevelopment.model.data.DataModel
-import com.nikitabolshakov.proandroiddevelopment.model.data.Meanings
+import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
+import com.nikitabolshakov.proandroiddevelopment.data.model.DataModel
+import com.nikitabolshakov.proandroiddevelopment.data.model.Meanings
 
 fun parseSearchResults(state: AppState): AppState {
     val newSearchResults = arrayListOf<DataModel>()

@@ -1,14 +1,16 @@
 package com.nikitabolshakov.proandroiddevelopment.di
 
 import android.app.Application
+import com.nikitabolshakov.proandroiddevelopment.application.TranslatorApp
+import com.nikitabolshakov.proandroiddevelopment.di.modules.ActivityModule
+import com.nikitabolshakov.proandroiddevelopment.di.modules.InteractorModule
+import com.nikitabolshakov.proandroiddevelopment.di.modules.RepositoryModule
+import com.nikitabolshakov.proandroiddevelopment.di.modules.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
-// Тут мы прописываем все наши модули, включая AndroidSupportInjectionModule.
-// Этот класс создаётся Dagger’ом. Он как раз связан с аннотацией ContributesAndroidInjector выше и позволяет внедрять в Activity все
-// необходимые зависимости
 @Component(
     modules = [
         InteractorModule::class,
@@ -19,8 +21,7 @@ import javax.inject.Singleton
 )
 @Singleton
 interface AppComponent {
-    // Этот билдер мы вызовем из класса TranslatorApp, который наследует
-    // Application
+
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -29,6 +30,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    // Наш кастомный Application
     fun inject(englishVocabularyApp: TranslatorApp)
 }
