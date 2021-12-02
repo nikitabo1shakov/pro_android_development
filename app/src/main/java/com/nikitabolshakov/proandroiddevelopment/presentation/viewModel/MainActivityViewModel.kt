@@ -30,18 +30,18 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun doOnSubscribe(): (Disposable) -> Unit =
-        { liveDataForViewToObserve.value = AppState.Loading(null) }
+        { liveDataForViewToObserve.postValue(AppState.Loading(null)) }
 
     private fun getObserver(): DisposableObserver<AppState> {
         return object : DisposableObserver<AppState>() {
 
             override fun onNext(state: AppState) {
                 appState = parseSearchResults(state)
-                liveDataForViewToObserve.value = appState
+                liveDataForViewToObserve.postValue(appState)
             }
 
             override fun onError(e: Throwable) {
-                liveDataForViewToObserve.value = AppState.Error(e)
+                liveDataForViewToObserve.postValue(AppState.Error(e))
             }
 
             override fun onComplete() {
