@@ -7,9 +7,8 @@ import com.nikitabolshakov.proandroiddevelopment.presentation.base.BaseViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.parseSearchResults
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
-import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(
+class MainActivityViewModel(
     private val interactor: MainInteractor
 ) : BaseViewModel<AppState>() {
 
