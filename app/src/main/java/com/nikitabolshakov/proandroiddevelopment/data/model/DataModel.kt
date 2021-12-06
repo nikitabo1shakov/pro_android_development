@@ -2,7 +2,10 @@ package com.nikitabolshakov.proandroiddevelopment.data.model
 
 import com.google.gson.annotations.SerializedName
 
+private const val VALUE_TEXT = "text"
+private const val VALUE_MEANINGS = "meanings"
+
 class DataModel(
-    @SerializedName("text") val text: String?,
-    @SerializedName("meanings") val meanings: List<Meanings>?
+    @SerializedName(VALUE_TEXT) val text: String?,
+    @SerializedName(VALUE_MEANINGS) val meanings: List<Meanings>?
 )

@@ -2,4 +2,6 @@ package com.nikitabolshakov.proandroiddevelopment.data.model
 
 import com.google.gson.annotations.SerializedName
 
-class Translation(@SerializedName("text") val translation: String?)
+private const val VALUE_TEXT = "text"
+
+class Translation(@SerializedName(VALUE_TEXT) val translation: String?)
