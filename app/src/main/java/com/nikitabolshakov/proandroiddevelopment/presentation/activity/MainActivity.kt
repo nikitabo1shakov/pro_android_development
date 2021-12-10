@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
@@ -15,6 +14,7 @@ import com.nikitabolshakov.proandroiddevelopment.presentation.adapter.MainAdapte
 import com.nikitabolshakov.proandroiddevelopment.presentation.base.BaseActivity
 import com.nikitabolshakov.proandroiddevelopment.presentation.fragment.SearchDialogFragment
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
+import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
 import com.nikitabolshakov.proandroiddevelopment.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,7 +32,14 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataModel) {
-                Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
+                startActivity(
+                    DescriptionActivity.getIntent(
+                        this@MainActivity,
+                        data.text!!,
+                        convertMeaningsToString(data.meanings!!),
+                        data.meanings[0].imageUrl
+                    )
+                )
             }
         }
     private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =

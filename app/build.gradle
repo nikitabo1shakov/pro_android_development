@@ -47,9 +47,13 @@ ext {
     appcompatVersion = "1.4.0"
     materialVersion = "1.4.0"
     constraintlayoutVersion = "2.1.2"
+    swiperefreshlayoutVersion = "1.1.0"
     daggerVersion = "2.35.1"
     coroutinesCoreVersion = "1.5.1"
     coroutinesAndroidVersion = "1.5.0"
+    picassoVersion = "2.71828"
+    glideVersion = "4.11.0"
+    coilVersion = "0.11.0"
 }
 
 dependencies {
@@ -74,6 +78,7 @@ dependencies {
     // UI
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
 
     // Dagger
     implementation "com.google.dagger:dagger-android:$daggerVersion"
@@ -94,6 +99,16 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesAndroidVersion"
+
+    // Picasso
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    // Coil
+    implementation "io.coil-kt:coil:$coilVersion"
 
     // Test
     testImplementation 'junit:junit:4.13.2'
