@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity
-            android:name="com.nikitabolshakov.proandroiddevelopment.presentation.activity.MainActivity"
+            android:name="com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activity.DescriptionActivity" />
-        <activity android:name=".presentation.activity.HistoryActivity" />
+        <activity android:name="com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.DescriptionActivity" />
+        <activity android:name="com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.HistoryActivity" />
     </application>
 
 </manifest>
