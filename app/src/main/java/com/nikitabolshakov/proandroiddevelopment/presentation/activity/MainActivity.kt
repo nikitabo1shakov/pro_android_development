@@ -1,9 +1,10 @@
 package com.nikitabolshakov.proandroiddevelopment.presentation.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
@@ -17,6 +18,8 @@ import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActi
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
 import com.nikitabolshakov.proandroiddevelopment.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
@@ -56,45 +59,34 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initViewModel()
+
+        iniViewModel()
         initViews()
     }
 
-    override fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                showViewWorking()
-                val data = appState.data
-                if (data.isNullOrEmpty()) {
-                    showAlertDialog(
-                        getString(R.string.dialog_tittle_sorry),
-                        getString(R.string.empty_server_response_on_success)
-                    )
-                } else {
-                    adapter.setData(data)
-                }
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
             }
-            is AppState.Loading -> {
-                showViewLoading()
-                if (appState.progress != null) {
-                    binding.progressBarHorizontal.visibility = VISIBLE
-                    binding.progressBarRound.visibility = GONE
-                    binding.progressBarHorizontal.progress = appState.progress
-                } else {
-                    binding.progressBarHorizontal.visibility = GONE
-                    binding.progressBarRound.visibility = VISIBLE
-                }
-            }
-            is AppState.Error -> {
-                showViewWorking()
-                showAlertDialog(getString(R.string.error_stub), appState.error.message)
-            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun initViewModel() {
+    private fun iniViewModel() {
         if (binding.mainActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
@@ -107,18 +99,5 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         binding.searchFab.setOnClickListener(fabClickListener)
         binding.mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.mainActivityRecyclerview.adapter = adapter
-    }
-
-    private fun showViewWorking() {
-        binding.loadingFrameLayout.visibility = GONE
-    }
-
-    private fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = VISIBLE
-    }
-
-    companion object {
-        private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
-            "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
     }
 }

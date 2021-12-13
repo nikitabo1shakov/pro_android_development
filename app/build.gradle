@@ -54,6 +54,7 @@ ext {
     picassoVersion = "2.71828"
     glideVersion = "4.11.0"
     coilVersion = "0.11.0"
+    roomVersion = "2.3.0"
 }
 
 dependencies {
@@ -109,6 +110,11 @@ dependencies {
 
     // Coil
     implementation "io.coil-kt:coil:$coilVersion"
+
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
     // Test
     testImplementation 'junit:junit:4.13.2'

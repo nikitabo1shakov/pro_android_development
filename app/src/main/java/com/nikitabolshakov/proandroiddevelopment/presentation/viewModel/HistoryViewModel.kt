@@ -2,14 +2,12 @@ package com.nikitabolshakov.proandroiddevelopment.presentation.viewModel
 
 import androidx.lifecycle.LiveData
 import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
-import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
+import com.nikitabolshakov.proandroiddevelopment.domain.interactor.HistoryInteractor
 import com.nikitabolshakov.proandroiddevelopment.presentation.base.BaseViewModel
-import com.nikitabolshakov.proandroiddevelopment.utils.parseOnlineSearchResults
-import kotlinx.coroutines.Dispatchers
+import com.nikitabolshakov.proandroiddevelopment.utils.parseLocalSearchResults
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MainActivityViewModel(private val interactor: MainInteractor) :
+class HistoryViewModel(private val interactor: HistoryInteractor) :
     BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
@@ -24,10 +22,9 @@ class MainActivityViewModel(private val interactor: MainInteractor) :
         viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
-    private suspend fun startInteractor(word: String, isOnline: Boolean) =
-        withContext(Dispatchers.IO) {
-            _mutableLiveData.postValue(parseOnlineSearchResults(interactor.getData(word, isOnline)))
-        }
+    private suspend fun startInteractor(word: String, isOnline: Boolean) {
+        _mutableLiveData.postValue(parseLocalSearchResults(interactor.getData(word, isOnline)))
+    }
 
     override fun handleError(error: Throwable) {
         _mutableLiveData.postValue(AppState.Error(error))
