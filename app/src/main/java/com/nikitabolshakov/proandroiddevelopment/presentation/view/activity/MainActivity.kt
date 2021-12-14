@@ -103,8 +103,10 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun initViews() {
-        binding.searchFab.setOnClickListener(fabClickListener)
-        binding.mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-        binding.mainActivityRecyclerview.adapter = adapter
+        with(binding) {
+            searchFab.setOnClickListener(fabClickListener)
+            mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+            mainActivityRecyclerview.adapter = adapter
+        }
     }
 }
