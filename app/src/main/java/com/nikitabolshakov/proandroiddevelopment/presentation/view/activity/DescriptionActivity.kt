@@ -7,9 +7,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import coil.ImageLoader
-import coil.request.LoadRequest
-import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -20,8 +17,6 @@ import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityDescriptionBinding
 import com.nikitabolshakov.proandroiddevelopment.utils.network.isOnline
 import com.nikitabolshakov.proandroiddevelopment.utils.ui.AlertDialogFragment
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 
 class DescriptionActivity : AppCompatActivity() {
 
@@ -61,9 +56,7 @@ class DescriptionActivity : AppCompatActivity() {
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {
-            // usePicassoToLoadPhoto(binding.descriptionImageview, imageLink)
             useGlideToLoadPhoto(binding.descriptionImageview, imageLink)
-            // useCoilToLoadPhoto(binding.descriptionImageview, imageLink)
         }
     }
 
@@ -86,21 +79,6 @@ class DescriptionActivity : AppCompatActivity() {
         if (binding.descriptionScreenSwipeRefreshLayout.isRefreshing) {
             binding.descriptionScreenSwipeRefreshLayout.isRefreshing = false
         }
-    }
-
-    private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {
-        Picasso.get().load("https:$imageLink")
-            .placeholder(R.drawable.ic_no_photo_vector).fit().centerCrop()
-            .into(imageView, object : Callback {
-                override fun onSuccess() {
-                    stopRefreshAnimationIfNeeded()
-                }
-
-                override fun onError(e: Exception?) {
-                    stopRefreshAnimationIfNeeded()
-                    imageView.setImageResource(R.drawable.ic_load_error_vector)
-                }
-            })
     }
 
     private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {
@@ -135,26 +113,6 @@ class DescriptionActivity : AppCompatActivity() {
                     .centerCrop()
             )
             .into(imageView)
-    }
-
-    private fun useCoilToLoadPhoto(imageView: ImageView, imageLink: String) {
-        val request = LoadRequest.Builder(this)
-            .data("https:$imageLink")
-            .target(
-                onStart = {},
-                onSuccess = { result ->
-                    imageView.setImageDrawable(result)
-                },
-                onError = {
-                    imageView.setImageResource(R.drawable.ic_load_error_vector)
-                }
-            )
-            .transformations(
-                CircleCropTransformation(),
-            )
-            .build()
-
-        ImageLoader(this).execute(request)
     }
 
     companion object {
