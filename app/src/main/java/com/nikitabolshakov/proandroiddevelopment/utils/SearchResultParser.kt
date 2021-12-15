@@ -1,38 +1,90 @@
 package com.nikitabolshakov.proandroiddevelopment.utils
 
 import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
-import com.nikitabolshakov.proandroiddevelopment.data.model.DataModel
 import com.nikitabolshakov.proandroiddevelopment.data.model.Meanings
+import com.nikitabolshakov.proandroiddevelopment.data.model.SkyengDataModel
+import com.nikitabolshakov.proandroiddevelopment.data.room.HistoryEntity
 
-fun parseSearchResults(state: AppState): AppState {
-    val newSearchResults = arrayListOf<DataModel>()
-    when (state) {
+fun parseOnlineSearchResults(appState: AppState): AppState =
+    AppState.Success(mapResult(appState, true))
+
+fun parseLocalSearchResults(appState: AppState): AppState =
+    AppState.Success(mapResult(appState, false))
+
+private fun mapResult(
+    appState: AppState,
+    isOnline: Boolean
+): List<SkyengDataModel> {
+    val newSearchResults = arrayListOf<SkyengDataModel>()
+    when (appState) {
         is AppState.Success -> {
-            val searchResults = state.data
-            if (!searchResults.isNullOrEmpty()) {
-                for (searchResult in searchResults) {
-                    parseResult(searchResult, newSearchResults)
-                }
+            getSuccessResultData(appState, isOnline, newSearchResults)
+        }
+        else -> {}
+    }
+    return newSearchResults
+}
+
+private fun getSuccessResultData(
+    appState: AppState.Success,
+    isOnline: Boolean,
+    newDataModels: ArrayList<SkyengDataModel>
+) {
+    val skyengDataModel: List<SkyengDataModel> = appState.data as List<SkyengDataModel>
+    if (skyengDataModel.isNotEmpty()) {
+        if (isOnline) {
+            for (searchResult in skyengDataModel) {
+                parseOnlineResult(searchResult, newDataModels)
+            }
+        } else {
+            for (searchResult in skyengDataModel) {
+                newDataModels.add(SkyengDataModel(searchResult.text, arrayListOf()))
             }
         }
     }
-
-    return AppState.Success(newSearchResults)
 }
 
-private fun parseResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
-    if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
+private fun parseOnlineResult(
+    skyengDataModel: SkyengDataModel,
+    newDataModels: ArrayList<SkyengDataModel>
+) {
+    if (!skyengDataModel.text.isNullOrBlank() && !skyengDataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings) {
+        for (meaning in skyengDataModel.meanings) {
             if (meaning.translation != null && !meaning.translation.translation.isNullOrBlank()) {
                 newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
             }
         }
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(DataModel(dataModel.text, newMeanings))
+            newDataModels.add(SkyengDataModel(skyengDataModel.text, newMeanings))
         }
     }
 }
+
+fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<SkyengDataModel> {
+    val searchResult = ArrayList<SkyengDataModel>()
+    if (!list.isNullOrEmpty()) {
+        for (entity in list) {
+            searchResult.add(SkyengDataModel(entity.word, null))
+        }
+    }
+    return searchResult
+}
+
+fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
+    return when (appState) {
+        is AppState.Success -> {
+            val searchResult = appState.data
+            if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
+                null
+            } else {
+                HistoryEntity(searchResult[0].text!!, null)
+            }
+        }
+        else -> null
+    }
+}
+
 
 fun convertMeaningsToString(meanings: List<Meanings>): String {
     var meaningsSeparatedByComma = String()

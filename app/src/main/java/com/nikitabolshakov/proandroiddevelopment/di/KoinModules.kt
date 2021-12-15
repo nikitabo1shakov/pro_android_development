@@ -1,28 +1,43 @@
 package com.nikitabolshakov.proandroiddevelopment.di
 
-import com.nikitabolshakov.proandroiddevelopment.data.dataSource.RetrofitImplementation
-import com.nikitabolshakov.proandroiddevelopment.data.dataSource.RoomDataBaseImplementation
-import com.nikitabolshakov.proandroiddevelopment.data.model.DataModel
-import com.nikitabolshakov.proandroiddevelopment.data.repository.Repository
-import com.nikitabolshakov.proandroiddevelopment.data.repository.RepositoryImplementation
+import androidx.room.Room
+import com.nikitabolshakov.proandroiddevelopment.data.dataSource.local.SkyengDataSourceLocalImpl
+import com.nikitabolshakov.proandroiddevelopment.data.dataSource.remote.SkyengDataSourceRemoteImpl
+import com.nikitabolshakov.proandroiddevelopment.data.model.SkyengDataModel
+import com.nikitabolshakov.proandroiddevelopment.data.repository.remote.RepositoryRemote
+import com.nikitabolshakov.proandroiddevelopment.data.repository.remote.RepositoryRemoteImpl
+import com.nikitabolshakov.proandroiddevelopment.data.repository.local.RepositoryLocalImpl
+import com.nikitabolshakov.proandroiddevelopment.data.repository.local.RepositoryLocal
+import com.nikitabolshakov.proandroiddevelopment.data.room.HistoryDataBase
+import com.nikitabolshakov.proandroiddevelopment.domain.interactor.HistoryInteractor
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
-import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
-import org.koin.core.qualifier.named
+import com.nikitabolshakov.proandroiddevelopment.presentation.viewModels.HistoryActivityViewModel
+import com.nikitabolshakov.proandroiddevelopment.presentation.viewModels.MainActivityViewModel
 import org.koin.dsl.module
 
 val application = module {
-    single<Repository<List<DataModel>>>(named(NAME_REMOTE)) {
-        RepositoryImplementation(
-            RetrofitImplementation()
+
+    single { Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB").build() }
+    single { get<HistoryDataBase>().historyDao() }
+
+    single<RepositoryRemote<List<SkyengDataModel>>> {
+        RepositoryRemoteImpl(
+            SkyengDataSourceRemoteImpl()
         )
     }
-    single<Repository<List<DataModel>>>(named(NAME_LOCAL)) {
-        RepositoryImplementation(
-            RoomDataBaseImplementation()
+    single<RepositoryLocal<List<SkyengDataModel>>> {
+        RepositoryLocalImpl(
+            SkyengDataSourceLocalImpl(historyDao = get())
         )
     }
 }
+
 val mainScreen = module {
-    factory { MainInteractor(get(named(NAME_REMOTE)), get(named(NAME_LOCAL))) }
-    factory { MainActivityViewModel(get()) }
+    factory { MainActivityViewModel(mainInteractor = get()) }
+    factory { MainInteractor(repositoryRemote = get(), repositoryLocal = get()) }
+}
+
+val historyScreen = module {
+    factory { HistoryActivityViewModel(historyInteractor = get()) }
+    factory { HistoryInteractor(repositoryRemote = get(), repositoryLocal = get()) }
 }
