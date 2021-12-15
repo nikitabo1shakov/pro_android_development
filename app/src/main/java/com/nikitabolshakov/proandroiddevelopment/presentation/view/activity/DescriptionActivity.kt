@@ -15,8 +15,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityDescriptionBinding
-import com.nikitabolshakov.proandroiddevelopment.utils.network.isOnline
-import com.nikitabolshakov.proandroiddevelopment.utils.ui.AlertDialogFragment
+import com.nikitabolshakov.utils.network.isOnline
+import com.nikitabolshakov.utils.ui.AlertDialogFragment
 
 class DescriptionActivity : AppCompatActivity() {
 
