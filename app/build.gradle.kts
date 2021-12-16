@@ -44,40 +44,40 @@ android {
 dependencies {
 
     // Modules
-    implementation(project(":core"))
-    implementation(project(":model"))
-    implementation(project(":data"))
-    implementation(project(":utils"))
-    implementation(project(":historyScreen"))
+    implementation(project(Modules.CORE_MODULE))
+    implementation(project(Modules.DATA_MODULE))
+    implementation(project(Modules.HISTORY_SCREEN_MODULE))
+    implementation(project(Modules.MODEL_MODULE))
+    implementation(project(Modules.UTILS_MODULE))
 
     // Design
-    implementation("androidx.appcompat:appcompat:1.4.0")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(Dependencies.APPCOMPAT_DEPENDENCY)
+    implementation(Dependencies.MATERIAL_DEPENDENCY)
+    implementation(Dependencies.CONSTRAINT_LAYOUT_DEPENDENCY)
+    implementation(Dependencies.SWIPEREFRESH_LAYOUT_DEPENDENCY)
 
     // Kotlin
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation(Dependencies.CORE_KTX_DEPENDENCY)
+    implementation(Dependencies.STD_LIB_JDK7_DEPENDENCY)
+    implementation(Dependencies.COROUTINES_CORE_DEPENDENCY)
+    implementation(Dependencies.COROUTINES_ANDROID_DEPENDENCY)
 
     // Koin
-    implementation("io.insert-koin:koin-core:3.1.2")
-    implementation("io.insert-koin:koin-android:3.1.2")
-    implementation("io.insert-koin:koin-android-compat:3.1.2")
+    implementation(Dependencies.KOIN_CORE_DEPENDENCY)
+    implementation(Dependencies.KOIN_ANDROID_DEPENDENCY)
+    implementation(Dependencies.KOIN_ANDROID_COMPAT_DEPENDENCY)
 
     // Glide
-    implementation("com.github.bumptech.glide:glide:4.11.0")
-    kapt("com.github.bumptech.glide:compiler:4.11.0")
+    implementation(Dependencies.GLIDE_DEPENDENCY)
+    kapt(Dependencies.GLIDE_COMPILER_DEPENDENCY)
 
     // Room
-    implementation("androidx.room:room-runtime:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
-    implementation("androidx.room:room-ktx:2.3.0")
+    implementation(Dependencies.ROOM_RUNTIME_DEPENDENCY)
+    kapt(Dependencies.ROOM_COMPILER_DEPENDENCY)
+    implementation(Dependencies.ROOM_KTX_DEPENDENCY)
 
     // Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(Dependencies.JUNIT_DEPENDENCY)
+    androidTestImplementation(Dependencies.RUNNER_DEPENDENCY)
+    androidTestImplementation(Dependencies.ESPRESSO_CORE_DEPENDENCY)
 }

@@ -36,29 +36,29 @@ android {
 
 dependencies {
 
-    // Module
-    implementation(project(":model"))
+    // Modules
+    implementation(project(Modules.MODEL_MODULE))
 
     // Design
-    implementation("androidx.appcompat:appcompat:1.4.0")
+    implementation(Dependencies.APPCOMPAT_DEPENDENCY)
 
     // Kotlin
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0")
+    implementation(Dependencies.CORE_KTX_DEPENDENCY)
+    implementation(Dependencies.STD_LIB_JDK7_DEPENDENCY)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.12.1")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation(Dependencies.RETROFIT_DEPENDENCY)
+    implementation(Dependencies.RETROFIT_CONVERTER_GSON_DEPENDENCY)
+    implementation(Dependencies.INTERCEPTOR_DEPENDENCY)
+    implementation(Dependencies.RETROFIT_ADAPTER_COROUTINES_DEPENDENCY)
 
     // Room
-    implementation("androidx.room:room-runtime:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
-    implementation("androidx.room:room-ktx:2.3.0")
+    implementation(Dependencies.ROOM_RUNTIME_DEPENDENCY)
+    kapt(Dependencies.ROOM_COMPILER_DEPENDENCY)
+    implementation(Dependencies.ROOM_KTX_DEPENDENCY)
 
     // Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(Dependencies.JUNIT_DEPENDENCY)
+    androidTestImplementation(Dependencies.RUNNER_DEPENDENCY)
+    androidTestImplementation(Dependencies.ESPRESSO_CORE_DEPENDENCY)
 }

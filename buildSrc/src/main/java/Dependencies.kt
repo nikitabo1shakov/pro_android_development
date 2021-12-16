@@ -11,10 +11,10 @@ object Dependencies {
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.SWIPEREFRESH_LAYOUT_VERSION}"
 
     // Kotlin
-    const val CORE_DEPENDENCY =
-        "androidx.core:core-ktx:${Versions.CORE_VERSION}"
-    const val STD_LIB_DEPENDENCY =
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.STD_LIB_VERSION}"
+    const val CORE_KTX_DEPENDENCY =
+        "androidx.core:core-ktx:${Versions.CORE_KTX_VERSION}"
+    const val STD_LIB_JDK7_DEPENDENCY =
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.STD_LIB_JDK7_VERSION}"
     const val COROUTINES_CORE_DEPENDENCY =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES_CORE_VERSION}"
     const val COROUTINES_ANDROID_DEPENDENCY =
@@ -23,12 +23,12 @@ object Dependencies {
     // Retrofit
     const val RETROFIT_DEPENDENCY =
         "com.squareup.retrofit2:retrofit:${Versions.RETROFIT_VERSION}"
-    const val CONVERTER_GSON_DEPENDENCY =
-        "com.squareup.retrofit2:converter-gson:${Versions.CONVERTER_GSON_VERSION}"
-    const val ADAPTER_COROUTINES_DEPENDENCY =
-        "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.ADAPTER_COROUTINES_VERSION}"
+    const val RETROFIT_CONVERTER_GSON_DEPENDENCY =
+        "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT_CONVERTER_GSON_VERSION}"
     const val INTERCEPTOR_DEPENDENCY =
         "com.squareup.okhttp3:logging-interceptor:${Versions.INTERCEPTOR_VERSION}"
+    const val RETROFIT_ADAPTER_COROUTINES_DEPENDENCY =
+        "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.RETROFIT_ADAPTER_COROUTINES_VERSION}"
 
     // Koin
     const val KOIN_CORE_DEPENDENCY =
@@ -39,8 +39,10 @@ object Dependencies {
         "io.insert-koin:koin-android-compat:${Versions.KOIN_ANDROID_COMPAT_VERSION}"
 
     // Glide
-    const val GLIDE_DEPENDENCY = "com.github.bumptech.glide:glide:${Versions.GLIDE_VERSION}"
-    const val GLIDE_KAPT_DEPENDENCY = "com.github.bumptech.glide:compiler:${Versions.GLIDE_VERSION}"
+    const val GLIDE_DEPENDENCY =
+        "com.github.bumptech.glide:glide:${Versions.GLIDE_VERSION}"
+    const val GLIDE_COMPILER_DEPENDENCY =
+        "com.github.bumptech.glide:compiler:${Versions.GLIDE_COMPILER_VERSION}"
 
     // Room
     const val ROOM_RUNTIME_DEPENDENCY =

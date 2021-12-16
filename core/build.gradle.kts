@@ -40,20 +40,20 @@ android {
 dependencies {
 
     // Modules
-    implementation(project(":model"))
-    implementation(project(":utils"))
+    implementation(project(Modules.MODEL_MODULE))
+    implementation(project(Modules.UTILS_MODULE))
 
     // Design
-    implementation("androidx.appcompat:appcompat:1.4.0")
+    implementation(Dependencies.APPCOMPAT_DEPENDENCY)
 
     // Kotlin
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation(Dependencies.CORE_KTX_DEPENDENCY)
+    implementation(Dependencies.STD_LIB_JDK7_DEPENDENCY)
+    implementation(Dependencies.COROUTINES_CORE_DEPENDENCY)
+    implementation(Dependencies.COROUTINES_ANDROID_DEPENDENCY)
 
     // Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(Dependencies.JUNIT_DEPENDENCY)
+    androidTestImplementation(Dependencies.RUNNER_DEPENDENCY)
+    androidTestImplementation(Dependencies.ESPRESSO_CORE_DEPENDENCY)
 }
