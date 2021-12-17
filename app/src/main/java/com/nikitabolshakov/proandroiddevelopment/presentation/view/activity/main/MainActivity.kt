@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.view.activity
+package com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,10 +16,10 @@ import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActiv
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityMainBinding
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
 import com.nikitabolshakov.proandroiddevelopment.presentation.adapter.MainActivityAdapter
+import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.description.DescriptionActivity
 import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.SearchDialogFragment
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
-import com.nikitabolshakov.utils.network.isOnline
 import com.nikitabolshakov.utils.ui.viewById
 import org.koin.android.scope.currentScope
 
@@ -62,7 +62,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
         object : SearchDialogFragment.OnSearchClickListener {
             override fun onClick(searchWord: String) {
-                isNetworkAvailable = isOnline(applicationContext)
                 if (isNetworkAvailable) {
                     viewModel.getData(searchWord, isNetworkAvailable)
                 } else {
