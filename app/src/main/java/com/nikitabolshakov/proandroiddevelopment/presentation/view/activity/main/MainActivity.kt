@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nikitabolshakov.core.presentation.view.activity.base.BaseActivity
-import com.nikitabolshakov.proandroiddevelopment.R
-import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.SkyengDataModel
 import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActivity
+import com.nikitabolshakov.model.AppState
+import com.nikitabolshakov.model.DataModel
+import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityMainBinding
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
 import com.nikitabolshakov.proandroiddevelopment.presentation.adapter.MainActivityAdapter
@@ -47,13 +47,13 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private val onListItemClickListener: MainActivityAdapter.OnListItemClickListener =
         object : MainActivityAdapter.OnListItemClickListener {
-            override fun onItemClick(data: SkyengDataModel) {
+            override fun onItemClick(data: DataModel) {
                 startActivity(
                     DescriptionActivity.getIntent(
                         this@MainActivity,
-                        data.text!!,
-                        convertMeaningsToString(data.meanings!!),
-                        data.meanings!![0].imageUrl
+                        data.text,
+                        convertMeaningsToString(data.meanings),
+                        data.meanings[0].imageUrl
                     )
                 )
             }
@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         initViews()
     }
 
-    override fun setDataToAdapter(data: List<SkyengDataModel>) {
+    override fun setDataToAdapter(data: List<DataModel>) {
         adapter.setData(data)
     }
 

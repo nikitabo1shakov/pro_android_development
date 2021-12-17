@@ -3,11 +3,11 @@ package com.nikitabolshakov.historyscreen.presentation.view.activity
 import android.os.Bundle
 import com.nikitabolshakov.core.presentation.view.activity.base.BaseActivity
 import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.SkyengDataModel
 import com.nikitabolshakov.historyscreen.databinding.ActivityHistoryBinding
 import com.nikitabolshakov.historyscreen.domain.interactor.HistoryInteractor
 import com.nikitabolshakov.historyscreen.presentation.adapter.HistoryActivityAdapter
 import com.nikitabolshakov.historyscreen.presentation.viewModel.HistoryActivityViewModel
+import com.nikitabolshakov.model.DataModel
 import org.koin.android.scope.currentScope
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
@@ -33,7 +33,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
         viewModel.getData("", false)
     }
 
-    override fun setDataToAdapter(data: List<SkyengDataModel>) {
+    override fun setDataToAdapter(data: List<DataModel>) {
         adapter.setData(data)
     }
 

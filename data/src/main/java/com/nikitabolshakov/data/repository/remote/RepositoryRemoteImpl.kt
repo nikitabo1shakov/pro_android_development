@@ -1,12 +1,12 @@
 package com.nikitabolshakov.data.repository.remote
 
-import com.nikitabolshakov.data.dataSource.remote.SkyengDataSourceRemote
-import com.nikitabolshakov.model.SkyengDataModel
+import com.nikitabolshakov.data.dataSource.remote.SearchResultDtoRemote
+import com.nikitabolshakov.model.SearchResultDto
 
 class RepositoryRemoteImpl(
-    private val skyengDataSource: SkyengDataSourceRemote<List<SkyengDataModel>>
-) : RepositoryRemote<List<SkyengDataModel>> {
+    private val searchResultDto: SearchResultDtoRemote<List<SearchResultDto>>
+) : RepositoryRemote<List<SearchResultDto>> {
 
-    override suspend fun getData(word: String): List<SkyengDataModel> =
-        skyengDataSource.getData(word)
+    override suspend fun getData(word: String): List<SearchResultDto> =
+        searchResultDto.getData(word)
 }

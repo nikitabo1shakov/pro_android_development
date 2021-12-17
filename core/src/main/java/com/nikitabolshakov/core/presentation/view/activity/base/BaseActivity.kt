@@ -11,7 +11,7 @@ import com.nikitabolshakov.core.databinding.LoadingLayoutBinding
 import com.nikitabolshakov.core.domain.interactor.Interactor
 import com.nikitabolshakov.core.presentation.viewModel.base.BaseViewModel
 import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.SkyengDataModel
+import com.nikitabolshakov.model.DataModel
 import com.nikitabolshakov.utils.network.OnlineLiveData
 import com.nikitabolshakov.utils.ui.AlertDialogFragment
 
@@ -110,5 +110,5 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
         return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
     }
 
-    abstract fun setDataToAdapter(data: List<SkyengDataModel>)
+    abstract fun setDataToAdapter(data: List<DataModel>)
 }
