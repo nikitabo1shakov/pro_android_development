@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nikitabolshakov.core.presentation.view.activity.base.BaseActivity
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.model.AppState
@@ -18,6 +20,7 @@ import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.Sear
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
 import com.nikitabolshakov.utils.network.isOnline
+import com.nikitabolshakov.utils.ui.viewById
 import org.koin.android.scope.currentScope
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
@@ -25,6 +28,9 @@ private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cb
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val mainActivityRecyclerview by viewById<RecyclerView>(R.id.main_activity_recyclerview)
+    private val searchFAB by viewById<FloatingActionButton>(R.id.search_fab)
 
     override lateinit var viewModel: MainActivityViewModel
 
@@ -104,10 +110,13 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun initViews() {
-        with(binding) {
+        searchFAB.setOnClickListener(fabClickListener)
+        mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRecyclerview.adapter = adapter
+        /* with(binding) {
             searchFab.setOnClickListener(fabClickListener)
             mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
             mainActivityRecyclerview.adapter = adapter
-        }
+        } */
     }
 }
