@@ -10,9 +10,12 @@ import com.nikitabolshakov.data.repository.local.RepositoryLocalImpl
 import com.nikitabolshakov.data.repository.local.RepositoryLocal
 import com.nikitabolshakov.data.room.HistoryDataBase
 import com.nikitabolshakov.historyscreen.domain.interactor.HistoryInteractor
+import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActivity
 import com.nikitabolshakov.historyscreen.presentation.viewModel.HistoryActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
+import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.MainActivity
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val application = module {
@@ -39,11 +42,15 @@ val application = module {
 }
 
 val mainScreen = module {
-    factory { MainActivityViewModel(mainInteractor = get()) }
-    factory { MainInteractor(repositoryRemote = get(), repositoryLocal = get()) }
+    scope<MainActivity> {
+        scoped { MainInteractor(repositoryRemote = get(), repositoryLocal = get()) }
+        viewModel { MainActivityViewModel(mainInteractor = get()) }
+    }
 }
 
 val historyScreen = module {
-    factory { HistoryActivityViewModel(historyInteractor = get()) }
-    factory { HistoryInteractor(repositoryRemote = get(), repositoryLocal = get()) }
+    scope<HistoryActivity> {
+        scoped { HistoryInteractor(repositoryRemote = get(), repositoryLocal = get()) }
+        viewModel { HistoryActivityViewModel(historyInteractor = get()) }
+    }
 }

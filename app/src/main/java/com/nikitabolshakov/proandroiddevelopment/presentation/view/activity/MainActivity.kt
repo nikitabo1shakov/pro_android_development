@@ -18,7 +18,7 @@ import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.Sear
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
 import com.nikitabolshakov.utils.network.isOnline
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.scope.currentScope
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
 
@@ -98,7 +98,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         if (binding.mainActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val mainActivityViewModel: MainActivityViewModel by viewModel()
+        val mainActivityViewModel: MainActivityViewModel by currentScope.inject()
         viewModel = mainActivityViewModel
         viewModel.subscribe().observe(this@MainActivity, { renderData(it) })
     }

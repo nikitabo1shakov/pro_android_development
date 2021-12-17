@@ -19,9 +19,8 @@ object Versions {
     const val RETROFIT_ADAPTER_COROUTINES_VERSION = "0.9.2"
 
     // Koin
-    const val KOIN_CORE_VERSION = "3.1.4"
-    const val KOIN_ANDROID_VERSION = "3.1.4"
-    const val KOIN_ANDROID_COMPAT_VERSION = "3.1.4"
+    const val KOIN_ANDROID_VERSION = "2.1.6"
+    const val KOIN_ANDROID_VIEW_MODEL_VERSION = "2.1.6"
 
     // Room
     const val ROOM_KTX_VERSION = "2.3.0"

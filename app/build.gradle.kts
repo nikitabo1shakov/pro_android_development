@@ -63,9 +63,8 @@ dependencies {
     implementation(Dependencies.COROUTINES_ANDROID_DEPENDENCY)
 
     // Koin
-    implementation(Dependencies.KOIN_CORE_DEPENDENCY)
     implementation(Dependencies.KOIN_ANDROID_DEPENDENCY)
-    implementation(Dependencies.KOIN_ANDROID_COMPAT_DEPENDENCY)
+    implementation(Dependencies.KOIN_ANDROID_VIEW_MODEL_DEPENDENCY)
 
     // Glide
     implementation(Dependencies.GLIDE_DEPENDENCY)
