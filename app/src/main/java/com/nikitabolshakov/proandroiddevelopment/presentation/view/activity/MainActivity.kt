@@ -6,17 +6,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nikitabolshakov.core.presentation.view.activity.base.BaseActivity
 import com.nikitabolshakov.proandroiddevelopment.R
-import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
-import com.nikitabolshakov.proandroiddevelopment.data.model.SkyengDataModel
+import com.nikitabolshakov.model.AppState
+import com.nikitabolshakov.model.SkyengDataModel
+import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActivity
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityMainBinding
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
-import com.nikitabolshakov.proandroiddevelopment.presentation.adapters.MainActivityAdapter
-import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.base.BaseActivity
+import com.nikitabolshakov.proandroiddevelopment.presentation.adapter.MainActivityAdapter
 import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.SearchDialogFragment
-import com.nikitabolshakov.proandroiddevelopment.presentation.viewModels.MainActivityViewModel
+import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
-import com.nikitabolshakov.proandroiddevelopment.utils.network.isOnline
+import com.nikitabolshakov.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
@@ -46,7 +47,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         this@MainActivity,
                         data.text!!,
                         convertMeaningsToString(data.meanings!!),
-                        data.meanings[0].imageUrl
+                        data.meanings!![0].imageUrl
                     )
                 )
             }

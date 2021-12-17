@@ -1,15 +1,11 @@
 package com.nikitabolshakov.proandroiddevelopment.utils
 
-import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
-import com.nikitabolshakov.proandroiddevelopment.data.model.Meanings
-import com.nikitabolshakov.proandroiddevelopment.data.model.SkyengDataModel
-import com.nikitabolshakov.proandroiddevelopment.data.room.HistoryEntity
+import com.nikitabolshakov.model.AppState
+import com.nikitabolshakov.model.Meanings
+import com.nikitabolshakov.model.SkyengDataModel
 
 fun parseOnlineSearchResults(appState: AppState): AppState =
     AppState.Success(mapResult(appState, true))
-
-fun parseLocalSearchResults(appState: AppState): AppState =
-    AppState.Success(mapResult(appState, false))
 
 private fun mapResult(
     appState: AppState,
@@ -50,8 +46,8 @@ private fun parseOnlineResult(
 ) {
     if (!skyengDataModel.text.isNullOrBlank() && !skyengDataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in skyengDataModel.meanings) {
-            if (meaning.translation != null && !meaning.translation.translation.isNullOrBlank()) {
+        for (meaning in skyengDataModel.meanings!!) {
+            if (meaning.translation != null && !meaning.translation!!.translation.isNullOrBlank()) {
                 newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
             }
         }
@@ -60,31 +56,6 @@ private fun parseOnlineResult(
         }
     }
 }
-
-fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<SkyengDataModel> {
-    val searchResult = ArrayList<SkyengDataModel>()
-    if (!list.isNullOrEmpty()) {
-        for (entity in list) {
-            searchResult.add(SkyengDataModel(entity.word, null))
-        }
-    }
-    return searchResult
-}
-
-fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
-    return when (appState) {
-        is AppState.Success -> {
-            val searchResult = appState.data
-            if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
-                null
-            } else {
-                HistoryEntity(searchResult[0].text!!, null)
-            }
-        }
-        else -> null
-    }
-}
-
 
 fun convertMeaningsToString(meanings: List<Meanings>): String {
     var meaningsSeparatedByComma = String()

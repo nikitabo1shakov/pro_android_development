@@ -1,9 +1,10 @@
 package com.nikitabolshakov.proandroiddevelopment.domain.interactor
 
-import com.nikitabolshakov.proandroiddevelopment.data.model.AppState
-import com.nikitabolshakov.proandroiddevelopment.data.model.SkyengDataModel
-import com.nikitabolshakov.proandroiddevelopment.data.repository.remote.RepositoryRemote
-import com.nikitabolshakov.proandroiddevelopment.data.repository.local.RepositoryLocal
+import com.nikitabolshakov.core.domain.interactor.Interactor
+import com.nikitabolshakov.model.AppState
+import com.nikitabolshakov.model.SkyengDataModel
+import com.nikitabolshakov.data.repository.remote.RepositoryRemote
+import com.nikitabolshakov.data.repository.local.RepositoryLocal
 
 class MainInteractor(
     private val repositoryRemote: RepositoryRemote<List<SkyengDataModel>>,

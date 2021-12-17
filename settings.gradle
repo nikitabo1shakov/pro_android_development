@@ -8,3 +8,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PRO Android Development"
 include ':app'
+include ':model'
+include ':utils'
+include ':historyScreen'
+include ':core'
+include ':data'
