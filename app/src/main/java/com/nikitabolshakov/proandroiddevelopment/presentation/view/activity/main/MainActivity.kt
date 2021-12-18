@@ -80,6 +80,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         initViews()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getData("", true)
+    }
+
     override fun setDataToAdapter(data: List<DataModel>) {
         adapter.setData(data)
     }
