@@ -2,26 +2,19 @@ package com.nikitabolshakov.core.presentation.view.activity.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.nikitabolshakov.core.R
-import com.nikitabolshakov.core.databinding.LoadingLayoutBinding
 import com.nikitabolshakov.core.domain.interactor.Interactor
 import com.nikitabolshakov.core.presentation.viewModel.base.BaseViewModel
 import com.nikitabolshakov.model.AppState
 import com.nikitabolshakov.model.DataModel
-import com.nikitabolshakov.utils.makeGone
-import com.nikitabolshakov.utils.makeVisible
 import com.nikitabolshakov.utils.network.OnlineLiveData
 import com.nikitabolshakov.utils.ui.AlertDialogFragment
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity() {
-
-    private lateinit var binding: LoadingLayoutBinding
 
     abstract val viewModel: BaseViewModel<T>
 
@@ -35,7 +28,7 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
     private fun subscribeToNetworkChange() {
         OnlineLiveData(this).observe(
             this@BaseActivity,
-            Observer<Boolean> {
+            {
                 isNetworkAvailable = it
                 if (!isNetworkAvailable) {
                     Toast.makeText(
@@ -44,40 +37,19 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            })
+            }
+        )
     }
 
     override fun onResume() {
         super.onResume()
-        binding = LoadingLayoutBinding.inflate(layoutInflater)
         if (!isNetworkAvailable && isDialogNull()) {
             showNoInternetConnectionDialog()
         }
     }
 
-    protected fun renderData(appState: T) {
-        when (appState) {
-            is AppState.Success -> {
-                binding.loadingFrameLayout.makeGone()
-                appState.data?.let {
-                    if (it.isEmpty()) {
-                        showAlertDialog(
-                            getString(R.string.dialog_tittle_sorry),
-                            getString(R.string.empty_server_response_on_success)
-                        )
-                    } else {
-                        setDataToAdapter(it)
-                    }
-                }
-            }
-            is AppState.Loading -> {
-                binding.loadingFrameLayout.makeVisible()
-            }
-            is AppState.Error -> {
-                binding.loadingFrameLayout.makeGone()
-                showAlertDialog(getString(R.string.error_stub), appState.error.message)
-            }
-        }
+    private fun isDialogNull(): Boolean {
+        return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
     }
 
     protected fun showNoInternetConnectionDialog() {
@@ -92,17 +64,6 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
             .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
     }
 
-    private fun showViewWorking() {
-        binding.loadingFrameLayout.makeGone()
-    }
-
-    private fun showViewLoading() {
-        binding.loadingFrameLayout.makeVisible()
-    }
-
-    private fun isDialogNull(): Boolean {
-        return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
-    }
-
+    abstract fun renderData(appState: T)
     abstract fun setDataToAdapter(data: List<DataModel>)
 }

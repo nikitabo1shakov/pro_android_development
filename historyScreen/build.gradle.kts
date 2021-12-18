@@ -43,6 +43,7 @@ dependencies {
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.DATA_MODULE))
     implementation(project(Modules.MODEL_MODULE))
+    implementation(project(Modules.UTILS_MODULE))
 
     // Design
     implementation(Dependencies.APPCOMPAT_DEPENDENCY)

@@ -25,6 +25,8 @@
             app:backgroundTint="@color/colorPrimary" />
     </FrameLayout>
 
-    <include layout="@layout/loading_layout" />
+    <include
+        android:id="@+id/include_loading_layout"
+        layout="@layout/loading_layout" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

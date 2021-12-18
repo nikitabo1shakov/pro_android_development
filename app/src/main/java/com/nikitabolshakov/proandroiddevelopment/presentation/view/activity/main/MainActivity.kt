@@ -20,10 +20,14 @@ import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.desc
 import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.SearchDialogFragment
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
+import com.nikitabolshakov.utils.makeGone
+import com.nikitabolshakov.utils.makeVisible
+import com.nikitabolshakov.utils.ui.AlertDialogFragment
 import com.nikitabolshakov.utils.ui.viewById
 import org.koin.android.scope.currentScope
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
@@ -80,10 +84,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         initViews()
     }
 
-    override fun setDataToAdapter(data: List<DataModel>) {
-        adapter.setData(data)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.history_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -112,10 +112,42 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         searchFAB.setOnClickListener(fabClickListener)
         mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         mainActivityRecyclerview.adapter = adapter
-        /* with(binding) {
-            searchFab.setOnClickListener(fabClickListener)
-            mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-            mainActivityRecyclerview.adapter = adapter
-        } */
+    }
+
+    override fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                binding.includeLoadingLayout.loadingFrameLayout.makeGone()
+                appState.data?.let {
+                    if (it.isEmpty()) {
+                        showAlertDialog(
+                            getString(R.string.dialog_tittle_sorry),
+                            getString(R.string.empty_server_response_on_success)
+                        )
+                    } else {
+                        setDataToAdapter(it)
+                    }
+                }
+            }
+            is AppState.Loading -> {
+                binding.includeLoadingLayout.loadingFrameLayout.makeVisible()
+            }
+            is AppState.Error -> {
+                binding.includeLoadingLayout.loadingFrameLayout.makeGone()
+                showAlertDialog(
+                    getString(R.string.error_stub),
+                    appState.error.message
+                )
+            }
+        }
+    }
+
+    private fun showAlertDialog(title: String?, message: String?) {
+        AlertDialogFragment.newInstance(title, message)
+            .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
+
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
     }
 }
