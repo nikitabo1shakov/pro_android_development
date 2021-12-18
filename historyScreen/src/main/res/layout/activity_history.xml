@@ -5,18 +5,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <FrameLayout
-        android:id="@+id/working_frame_layout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_activity_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/history_activity_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-    </FrameLayout>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <include layout="@layout/loading_layout" />
 
