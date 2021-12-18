@@ -12,6 +12,8 @@ import com.nikitabolshakov.core.domain.interactor.Interactor
 import com.nikitabolshakov.core.presentation.viewModel.base.BaseViewModel
 import com.nikitabolshakov.model.AppState
 import com.nikitabolshakov.model.DataModel
+import com.nikitabolshakov.utils.makeGone
+import com.nikitabolshakov.utils.makeVisible
 import com.nikitabolshakov.utils.network.OnlineLiveData
 import com.nikitabolshakov.utils.ui.AlertDialogFragment
 
@@ -56,7 +58,7 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
     protected fun renderData(appState: T) {
         when (appState) {
             is AppState.Success -> {
-                showViewWorking()
+                binding.loadingFrameLayout.makeGone()
                 appState.data?.let {
                     if (it.isEmpty()) {
                         showAlertDialog(
@@ -69,18 +71,10 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
                 }
             }
             is AppState.Loading -> {
-                showViewLoading()
-                if (appState.loading != null) {
-                    binding.progressBarHorizontal.visibility = View.VISIBLE
-                    binding.progressBarRound.visibility = View.GONE
-                    binding.progressBarHorizontal.progress = appState.loading!!
-                } else {
-                    binding.progressBarHorizontal.visibility = View.GONE
-                    binding.progressBarRound.visibility = View.VISIBLE
-                }
+                binding.loadingFrameLayout.makeVisible()
             }
             is AppState.Error -> {
-                showViewWorking()
+                binding.loadingFrameLayout.makeGone()
                 showAlertDialog(getString(R.string.error_stub), appState.error.message)
             }
         }
@@ -99,11 +93,11 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
     }
 
     private fun showViewWorking() {
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding.loadingFrameLayout.makeGone()
     }
 
     private fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = View.VISIBLE
+        binding.loadingFrameLayout.makeVisible()
     }
 
     private fun isDialogNull(): Boolean {
