@@ -1,20 +1,34 @@
 package com.nikitabolshakov.proandroiddevelopment.utils
 
-import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.Meanings
-import com.nikitabolshakov.model.SkyengDataModel
+import com.nikitabolshakov.model.*
 
-fun parseOnlineSearchResults(appState: AppState): AppState =
-    AppState.Success(mapResult(appState, true))
+fun mapSearchResultToResult(searchResults: List<SearchResultDto>): List<DataModel> {
+    return searchResults.map { searchResult ->
+        var meanings: List<Meaning> = listOf()
+        searchResult.meanings?.let {
+            // Check for null for HistoryScreen
+            meanings = it.map { meaningsDto ->
+                Meaning(
+                    TranslatedMeaning(meaningsDto.translation?.translation ?: ""),
+                    meaningsDto.imageUrl ?: ""
+                )
+            }
+        }
+        DataModel(searchResult.text ?: "", meanings)
+    }
+}
+
+fun parseOnlineSearchResults(data: AppState): AppState =
+    AppState.Success(mapResult(data, true))
 
 private fun mapResult(
-    appState: AppState,
+    data: AppState,
     isOnline: Boolean
-): List<SkyengDataModel> {
-    val newSearchResults = arrayListOf<SkyengDataModel>()
-    when (appState) {
+): List<DataModel> {
+    val newSearchResults = arrayListOf<DataModel>()
+    when (data) {
         is AppState.Success -> {
-            getSuccessResultData(appState, isOnline, newSearchResults)
+            getSuccessResultData(data, isOnline, newSearchResults)
         }
         else -> {}
     }
@@ -22,48 +36,55 @@ private fun mapResult(
 }
 
 private fun getSuccessResultData(
-    appState: AppState.Success,
+    data: AppState.Success,
     isOnline: Boolean,
-    newDataModels: ArrayList<SkyengDataModel>
+    newSearchDataModels: ArrayList<DataModel>
 ) {
-    val skyengDataModel: List<SkyengDataModel> = appState.data as List<SkyengDataModel>
-    if (skyengDataModel.isNotEmpty()) {
+    val searchDataModels: List<DataModel> = data.data as List<DataModel>
+    if (searchDataModels.isNotEmpty()) {
         if (isOnline) {
-            for (searchResult in skyengDataModel) {
-                parseOnlineResult(searchResult, newDataModels)
+            for (searchResult in searchDataModels) {
+                parseOnlineResult(searchResult, newSearchDataModels)
             }
         } else {
-            for (searchResult in skyengDataModel) {
-                newDataModels.add(SkyengDataModel(searchResult.text, arrayListOf()))
+            for (searchResult in searchDataModels) {
+                newSearchDataModels.add(
+                    DataModel(
+                        searchResult.text,
+                        arrayListOf()
+                    )
+                )
             }
         }
     }
 }
 
 private fun parseOnlineResult(
-    skyengDataModel: SkyengDataModel,
-    newDataModels: ArrayList<SkyengDataModel>
+    searchDataModel: DataModel,
+    newSearchDataModels: ArrayList<DataModel>
 ) {
-    if (!skyengDataModel.text.isNullOrBlank() && !skyengDataModel.meanings.isNullOrEmpty()) {
-        val newMeanings = arrayListOf<Meanings>()
-        for (meaning in skyengDataModel.meanings!!) {
-            if (meaning.translation != null && !meaning.translation!!.translation.isNullOrBlank()) {
-                newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
-            }
-        }
+    if (searchDataModel.text.isNotBlank() && searchDataModel.meanings.isNotEmpty()) {
+        val newMeanings = arrayListOf<Meaning>()
+        newMeanings.addAll(searchDataModel.meanings.filter
+        { it.translatedMeaning.translatedMeaning.isNotBlank() })
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(SkyengDataModel(skyengDataModel.text, newMeanings))
+            newSearchDataModels.add(
+                DataModel(
+                    searchDataModel.text,
+                    newMeanings
+                )
+            )
         }
     }
 }
 
-fun convertMeaningsToString(meanings: List<Meanings>): String {
+fun convertMeaningsToString(meanings: List<Meaning>): String {
     var meaningsSeparatedByComma = String()
     for ((index, meaning) in meanings.withIndex()) {
         meaningsSeparatedByComma += if (index + 1 != meanings.size) {
-            String.format("%s%s", meaning.translation?.translation, ", ")
+            String.format("%s%s", meaning.translatedMeaning.translatedMeaning, ", ")
         } else {
-            meaning.translation?.translation
+            meaning.translatedMeaning.translatedMeaning
         }
     }
     return meaningsSeparatedByComma

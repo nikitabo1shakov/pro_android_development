@@ -31,12 +31,10 @@ object Dependencies {
         "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.RETROFIT_ADAPTER_COROUTINES_VERSION}"
 
     // Koin
-    const val KOIN_CORE_DEPENDENCY =
-        "io.insert-koin:koin-core:${Versions.KOIN_CORE_VERSION}"
     const val KOIN_ANDROID_DEPENDENCY =
-        "io.insert-koin:koin-android:${Versions.KOIN_ANDROID_VERSION}"
-    const val KOIN_ANDROID_COMPAT_DEPENDENCY =
-        "io.insert-koin:koin-android-compat:${Versions.KOIN_ANDROID_COMPAT_VERSION}"
+        "org.koin:koin-android:${Versions.KOIN_ANDROID_VERSION}"
+    const val KOIN_ANDROID_VIEW_MODEL_DEPENDENCY =
+        "org.koin:koin-android-viewmodel:${Versions.KOIN_ANDROID_VIEW_MODEL_VERSION}"
 
     // Glide
     const val GLIDE_DEPENDENCY =

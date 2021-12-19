@@ -43,6 +43,7 @@ dependencies {
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.DATA_MODULE))
     implementation(project(Modules.MODEL_MODULE))
+    implementation(project(Modules.UTILS_MODULE))
 
     // Design
     implementation(Dependencies.APPCOMPAT_DEPENDENCY)
@@ -55,9 +56,8 @@ dependencies {
     implementation(Dependencies.COROUTINES_ANDROID_DEPENDENCY)
 
     // Koin
-    implementation(Dependencies.KOIN_CORE_DEPENDENCY)
     implementation(Dependencies.KOIN_ANDROID_DEPENDENCY)
-    implementation(Dependencies.KOIN_ANDROID_COMPAT_DEPENDENCY)
+    implementation(Dependencies.KOIN_ANDROID_VIEW_MODEL_DEPENDENCY)
 
     // Test
     testImplementation(Dependencies.JUNIT_DEPENDENCY)

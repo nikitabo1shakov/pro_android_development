@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.view.activity
+package com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,25 +6,35 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nikitabolshakov.core.presentation.view.activity.base.BaseActivity
-import com.nikitabolshakov.proandroiddevelopment.R
-import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.SkyengDataModel
 import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActivity
+import com.nikitabolshakov.model.AppState
+import com.nikitabolshakov.model.DataModel
+import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityMainBinding
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
 import com.nikitabolshakov.proandroiddevelopment.presentation.adapter.MainActivityAdapter
+import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.description.DescriptionActivity
 import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.SearchDialogFragment
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
-import com.nikitabolshakov.utils.network.isOnline
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.nikitabolshakov.utils.makeGone
+import com.nikitabolshakov.utils.makeVisible
+import com.nikitabolshakov.utils.ui.AlertDialogFragment
+import com.nikitabolshakov.utils.ui.viewById
+import org.koin.android.scope.currentScope
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val mainActivityRecyclerview by viewById<RecyclerView>(R.id.main_activity_recyclerview)
+    private val searchFAB by viewById<FloatingActionButton>(R.id.search_fab)
 
     override lateinit var viewModel: MainActivityViewModel
 
@@ -41,13 +51,13 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private val onListItemClickListener: MainActivityAdapter.OnListItemClickListener =
         object : MainActivityAdapter.OnListItemClickListener {
-            override fun onItemClick(data: SkyengDataModel) {
+            override fun onItemClick(data: DataModel) {
                 startActivity(
                     DescriptionActivity.getIntent(
                         this@MainActivity,
-                        data.text!!,
-                        convertMeaningsToString(data.meanings!!),
-                        data.meanings!![0].imageUrl
+                        data.text,
+                        convertMeaningsToString(data.meanings),
+                        data.meanings[0].imageUrl
                     )
                 )
             }
@@ -56,7 +66,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
         object : SearchDialogFragment.OnSearchClickListener {
             override fun onClick(searchWord: String) {
-                isNetworkAvailable = isOnline(applicationContext)
                 if (isNetworkAvailable) {
                     viewModel.getData(searchWord, isNetworkAvailable)
                 } else {
@@ -73,10 +82,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
         initViewModel()
         initViews()
-    }
-
-    override fun setDataToAdapter(data: List<SkyengDataModel>) {
-        adapter.setData(data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -98,16 +103,51 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         if (binding.mainActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val mainActivityViewModel: MainActivityViewModel by viewModel()
+        val mainActivityViewModel: MainActivityViewModel by currentScope.inject()
         viewModel = mainActivityViewModel
         viewModel.subscribe().observe(this@MainActivity, { renderData(it) })
     }
 
     private fun initViews() {
-        with(binding) {
-            searchFab.setOnClickListener(fabClickListener)
-            mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-            mainActivityRecyclerview.adapter = adapter
+        searchFAB.setOnClickListener(fabClickListener)
+        mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRecyclerview.adapter = adapter
+    }
+
+    override fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                binding.includeLoadingLayout.loadingFrameLayout.makeGone()
+                appState.data?.let {
+                    if (it.isEmpty()) {
+                        showAlertDialog(
+                            getString(R.string.dialog_tittle_sorry),
+                            getString(R.string.empty_server_response_on_success)
+                        )
+                    } else {
+                        setDataToAdapter(it)
+                    }
+                }
+            }
+            is AppState.Loading -> {
+                binding.includeLoadingLayout.loadingFrameLayout.makeVisible()
+            }
+            is AppState.Error -> {
+                binding.includeLoadingLayout.loadingFrameLayout.makeGone()
+                showAlertDialog(
+                    getString(R.string.error_stub),
+                    appState.error.message
+                )
+            }
         }
+    }
+
+    private fun showAlertDialog(title: String?, message: String?) {
+        AlertDialogFragment.newInstance(title, message)
+            .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
+
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
     }
 }

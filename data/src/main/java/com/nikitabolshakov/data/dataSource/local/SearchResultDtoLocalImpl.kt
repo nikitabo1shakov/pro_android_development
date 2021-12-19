@@ -3,14 +3,14 @@ package com.nikitabolshakov.data.dataSource.local
 import com.nikitabolshakov.data.convertDataModelSuccessToEntity
 import com.nikitabolshakov.data.mapHistoryEntityToSearchResult
 import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.SkyengDataModel
 import com.nikitabolshakov.data.room.HistoryDao
+import com.nikitabolshakov.model.SearchResultDto
 
-class SkyengDataSourceLocalImpl(
+class SearchResultDtoLocalImpl(
     private val historyDao: HistoryDao
-) : SkyengDataSourceLocal<List<SkyengDataModel>> {
+) : SearchResultDtoLocal<List<SearchResultDto>> {
 
-    override suspend fun getData(word: String): List<SkyengDataModel> =
+    override suspend fun getData(word: String): List<SearchResultDto> =
         mapHistoryEntityToSearchResult(historyDao.all())
 
     override suspend fun saveToDB(appState: AppState) {

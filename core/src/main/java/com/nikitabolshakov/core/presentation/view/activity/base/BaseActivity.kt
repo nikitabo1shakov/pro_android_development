@@ -2,74 +2,54 @@ package com.nikitabolshakov.core.presentation.view.activity.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.nikitabolshakov.core.R
-import com.nikitabolshakov.core.databinding.LoadingLayoutBinding
 import com.nikitabolshakov.core.domain.interactor.Interactor
 import com.nikitabolshakov.core.presentation.viewModel.base.BaseViewModel
 import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.model.SkyengDataModel
-import com.nikitabolshakov.utils.network.isOnline
+import com.nikitabolshakov.model.DataModel
+import com.nikitabolshakov.utils.network.OnlineLiveData
 import com.nikitabolshakov.utils.ui.AlertDialogFragment
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity() {
 
-    private lateinit var binding: LoadingLayoutBinding
-
     abstract val viewModel: BaseViewModel<T>
 
-    protected var isNetworkAvailable: Boolean = false
+    protected var isNetworkAvailable: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        isNetworkAvailable = isOnline(applicationContext)
+        subscribeToNetworkChange()
+    }
+
+    private fun subscribeToNetworkChange() {
+        OnlineLiveData(this).observe(
+            this@BaseActivity,
+            {
+                isNetworkAvailable = it
+                if (!isNetworkAvailable) {
+                    Toast.makeText(
+                        this@BaseActivity,
+                        R.string.dialog_message_device_is_offline,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        )
     }
 
     override fun onResume() {
         super.onResume()
-
-        binding = LoadingLayoutBinding.inflate(layoutInflater)
-
-        isNetworkAvailable = isOnline(applicationContext)
         if (!isNetworkAvailable && isDialogNull()) {
             showNoInternetConnectionDialog()
         }
     }
 
-    protected fun renderData(appState: T) {
-        when (appState) {
-            is AppState.Success -> {
-                showViewWorking()
-                appState.data?.let {
-                    if (it.isEmpty()) {
-                        showAlertDialog(
-                            getString(R.string.dialog_tittle_sorry),
-                            getString(R.string.empty_server_response_on_success)
-                        )
-                    } else {
-                        setDataToAdapter(it)
-                    }
-                }
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-                if (appState.loading != null) {
-                    binding.progressBarHorizontal.visibility = View.VISIBLE
-                    binding.progressBarRound.visibility = View.GONE
-                    binding.progressBarHorizontal.progress = appState.loading!!
-                } else {
-                    binding.progressBarHorizontal.visibility = View.GONE
-                    binding.progressBarRound.visibility = View.VISIBLE
-                }
-            }
-            is AppState.Error -> {
-                showViewWorking()
-                showAlertDialog(getString(R.string.error_stub), appState.error.message)
-            }
-        }
+    private fun isDialogNull(): Boolean {
+        return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
     }
 
     protected fun showNoInternetConnectionDialog() {
@@ -84,17 +64,6 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
             .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
     }
 
-    private fun showViewWorking() {
-        binding.loadingFrameLayout.visibility = View.GONE
-    }
-
-    private fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = View.VISIBLE
-    }
-
-    private fun isDialogNull(): Boolean {
-        return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
-    }
-
-    abstract fun setDataToAdapter(data: List<SkyengDataModel>)
+    abstract fun renderData(appState: T)
+    abstract fun setDataToAdapter(data: List<DataModel>)
 }

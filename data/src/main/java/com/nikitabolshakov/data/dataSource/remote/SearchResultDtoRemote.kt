@@ -1,5 +1,5 @@
 package com.nikitabolshakov.data.dataSource.remote
 
-interface SkyengDataSourceRemote<T> {
+interface SearchResultDtoRemote<T> {
     suspend fun getData(word: String): T
 }
