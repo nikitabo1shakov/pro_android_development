@@ -24,7 +24,7 @@ import com.nikitabolshakov.utils.makeGone
 import com.nikitabolshakov.utils.makeVisible
 import com.nikitabolshakov.utils.ui.AlertDialogFragment
 import com.nikitabolshakov.utils.ui.viewById
-import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
@@ -103,7 +103,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         if (binding.mainActivityRecyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val mainActivityViewModel: MainActivityViewModel by currentScope.inject()
+        val mainActivityViewModel: MainActivityViewModel by viewModel()
         viewModel = mainActivityViewModel
         viewModel.subscribe().observe(this@MainActivity, { renderData(it) })
     }

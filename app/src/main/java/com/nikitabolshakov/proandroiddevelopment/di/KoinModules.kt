@@ -13,7 +13,6 @@ import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActiv
 import com.nikitabolshakov.historyscreen.presentation.viewModel.HistoryActivityViewModel
 import com.nikitabolshakov.model.SearchResultDto
 import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
-import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.main.MainActivity
 import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -42,10 +41,8 @@ val application = module {
 }
 
 val mainScreen = module {
-    scope<MainActivity> {
-        scoped { MainInteractor(repositoryRemote = get(), repositoryLocal = get()) }
-        viewModel { MainActivityViewModel(mainInteractor = get()) }
-    }
+    single { MainInteractor(repositoryRemote = get(), repositoryLocal = get()) }
+    viewModel { MainActivityViewModel(mainInteractor = get()) }
 }
 
 val historyScreen = module {
