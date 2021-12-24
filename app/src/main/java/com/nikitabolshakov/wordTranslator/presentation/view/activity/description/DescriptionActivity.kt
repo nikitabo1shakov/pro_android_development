@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.description
+package com.nikitabolshakov.wordTranslator.presentation.view.activity.description
 
 import android.content.Context
 import android.content.Intent

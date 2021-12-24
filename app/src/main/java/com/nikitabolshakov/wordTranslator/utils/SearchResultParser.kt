@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.utils
+package com.nikitabolshakov.wordTranslator.utils
 
 import com.nikitabolshakov.model.*
 

@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.adapter
+package com.nikitabolshakov.wordTranslator.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitabolshakov.model.DataModel
 import com.nikitabolshakov.proandroiddevelopment.R
-import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
+import com.nikitabolshakov.wordTranslator.utils.convertMeaningsToString
 import kotlinx.android.synthetic.main.activity_main_recyclerview_item.view.*
 
 class MainActivityAdapter(

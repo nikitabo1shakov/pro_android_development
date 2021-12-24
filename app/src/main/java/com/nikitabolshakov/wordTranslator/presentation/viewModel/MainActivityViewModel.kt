@@ -1,10 +1,10 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.viewModel
+package com.nikitabolshakov.wordTranslator.presentation.viewModel
 
 import androidx.lifecycle.LiveData
 import com.nikitabolshakov.core.presentation.viewModel.base.BaseViewModel
 import com.nikitabolshakov.model.AppState
-import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
-import com.nikitabolshakov.proandroiddevelopment.utils.parseOnlineSearchResults
+import com.nikitabolshakov.wordTranslator.domain.interactor.MainInteractor
+import com.nikitabolshakov.wordTranslator.utils.parseOnlineSearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

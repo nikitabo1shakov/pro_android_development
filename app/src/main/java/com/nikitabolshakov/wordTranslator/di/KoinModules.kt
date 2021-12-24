@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.di
+package com.nikitabolshakov.wordTranslator.di
 
 import androidx.room.Room
 import com.nikitabolshakov.data.dataSource.local.SearchResultDtoLocalImpl
@@ -12,8 +12,8 @@ import com.nikitabolshakov.historyscreen.domain.interactor.HistoryInteractor
 import com.nikitabolshakov.historyscreen.presentation.view.activity.HistoryActivity
 import com.nikitabolshakov.historyscreen.presentation.viewModel.HistoryActivityViewModel
 import com.nikitabolshakov.model.SearchResultDto
-import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
-import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
+import com.nikitabolshakov.wordTranslator.domain.interactor.MainInteractor
+import com.nikitabolshakov.wordTranslator.presentation.viewModel.MainActivityViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

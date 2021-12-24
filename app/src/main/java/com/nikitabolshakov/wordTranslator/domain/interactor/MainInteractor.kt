@@ -1,11 +1,11 @@
-package com.nikitabolshakov.proandroiddevelopment.domain.interactor
+package com.nikitabolshakov.wordTranslator.domain.interactor
 
 import com.nikitabolshakov.core.domain.interactor.Interactor
 import com.nikitabolshakov.model.AppState
 import com.nikitabolshakov.data.repository.remote.RepositoryRemote
 import com.nikitabolshakov.data.repository.local.RepositoryLocal
 import com.nikitabolshakov.model.SearchResultDto
-import com.nikitabolshakov.proandroiddevelopment.utils.mapSearchResultToResult
+import com.nikitabolshakov.wordTranslator.utils.mapSearchResultToResult
 
 class MainInteractor(
     private val repositoryRemote: RepositoryRemote<List<SearchResultDto>>,

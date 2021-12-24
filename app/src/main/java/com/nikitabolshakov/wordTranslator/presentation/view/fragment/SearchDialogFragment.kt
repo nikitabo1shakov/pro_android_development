@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment
+package com.nikitabolshakov.wordTranslator.presentation.view.fragment
 
 import android.os.Bundle
 import android.text.Editable

@@ -1,4 +1,4 @@
-package com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.main
+package com.nikitabolshakov.wordTranslator.presentation.view.activity.main
 
 import android.animation.ObjectAnimator
 import android.content.Intent
@@ -21,12 +21,12 @@ import com.nikitabolshakov.model.AppState
 import com.nikitabolshakov.model.DataModel
 import com.nikitabolshakov.proandroiddevelopment.R
 import com.nikitabolshakov.proandroiddevelopment.databinding.ActivityMainBinding
-import com.nikitabolshakov.proandroiddevelopment.domain.interactor.MainInteractor
-import com.nikitabolshakov.proandroiddevelopment.presentation.adapter.MainActivityAdapter
-import com.nikitabolshakov.proandroiddevelopment.presentation.view.activity.description.DescriptionActivity
-import com.nikitabolshakov.proandroiddevelopment.presentation.view.fragment.SearchDialogFragment
-import com.nikitabolshakov.proandroiddevelopment.presentation.viewModel.MainActivityViewModel
-import com.nikitabolshakov.proandroiddevelopment.utils.convertMeaningsToString
+import com.nikitabolshakov.wordTranslator.domain.interactor.MainInteractor
+import com.nikitabolshakov.wordTranslator.presentation.adapter.MainActivityAdapter
+import com.nikitabolshakov.wordTranslator.presentation.view.activity.description.DescriptionActivity
+import com.nikitabolshakov.wordTranslator.presentation.view.fragment.SearchDialogFragment
+import com.nikitabolshakov.wordTranslator.presentation.viewModel.MainActivityViewModel
+import com.nikitabolshakov.wordTranslator.utils.convertMeaningsToString
 import com.nikitabolshakov.utils.makeGone
 import com.nikitabolshakov.utils.makeVisible
 import com.nikitabolshakov.utils.ui.AlertDialogFragment
